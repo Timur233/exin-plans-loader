@@ -3,17 +3,15 @@
     id="app"
     class="save-plans"
   >
-    <button
-      class="save-plans__button"
-      @click="saveChanges"
-    >
-      Сохранить
-    </button>
+    <LocationInform
+      :uuid="uuid"
+      @saveChanges="saveChanges"
+    />
 
     <file-pond
       ref="pond"
       :files="files"
-      class="save-button__file-uploader"
+      class="save-plans__file-uploader"
       name="plansUploader"
       label-idle="Загрузить файлы..."
       label-file-processing-complete="Файл загружен"
@@ -25,13 +23,12 @@
       accepted-file-types="image/*"
       :server="server"
       :allow-reorder="true"
-      @init="handleFilePondInit"
     />
   </div>
 </template>
 
 <script>
-// Import Vue FilePond
+import LocationInform from './components/LocationInform';
 import vueFilePond from 'vue-filepond';
 
 import 'filepond/dist/filepond.min.css';
@@ -47,13 +44,15 @@ export default {
     name:       "App",
     components: {
         FilePond,
+        LocationInform
     },
     data: function() {
         return { 
-            baseURL: 'http://localhost/exin.kz-1',
+            baseURL: 'http://localhost/exin/exin.kz/web',
+            uuid:    null,
             files:   [
                 {
-                    source:  'plan999225441.svg',
+                    source:  'plan906123055.svg',
                     options: {
                         type: 'local',
                     },
@@ -69,20 +68,23 @@ export default {
                     Authorization: 'Bearer '.concat('aAOI5zskZ1XBssXpH0FIOIv2SFtPJwKg'),
                 },
                 process: {
-                    url:    '/web/api/plans/upload-plan',
+                    url:    '/api/plans/upload-plan',
                     onload: response => response
                 },
                 load: {
-                    url: '/web/media/plans/',
+                    url: '/media/plans/',
                 },
                 revert: {
-                    url: '/web/api/plans/remove-plan',
+                    url: '/api/plans/remove-plan',
                 }
             }
         }
     },
     created() {
+        const link = new URL(document.URL);
+        const uuid = link.searchParams.get('uuid');
 
+        this.uuid = uuid;
     },
     methods: {
         test: function() {
@@ -105,11 +107,11 @@ export default {
             const plans = this.getFileslist();
 
             if (plans.length > 0) {
-                fetch(this.baseURL + '/web/api/plans/save-plans', {
+                fetch(this.baseURL + '/api/plans/save-plans', {
                     method:  'post',
                     headers: {'Authorization': 'Bearer '.concat('aAOI5zskZ1XBssXpH0FIOIv2SFtPJwKg')},
                     body:    JSON.stringify({
-                        uuid:  '123',
+                        uuid:  this.uuid,
                         plans: plans
                     })
                 }).then((res) => {console.log(res.json())});
@@ -122,5 +124,6 @@ export default {
 </script>
 
 <style lang="scss">
+@import url('http://exin.abpx.kz/styles/main.min.css?v=1637826950');
 @import './src/assets/style.scss';
 </style>
