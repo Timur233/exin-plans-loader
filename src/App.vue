@@ -48,7 +48,7 @@ export default {
     },
     data: function() {
         return { 
-            baseURL: 'http://localhost/exin.kz-1/web',
+            baseURL: 'https://exin.kz',
             uuid:    null,
             files:   [
                 {

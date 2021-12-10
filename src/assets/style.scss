@@ -1,18 +1,28 @@
 .save-plans {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: flex-start;
-    gap: 16px;
-    padding: 16px;
-    width: 1200px;
     margin: 0 auto;
+    padding-top: 40px;
 
     &__file-uploader {
-        flex: 1 1 50%;
+        display: block;
+        flex: 0 0 50%;
+        padding-right: 16px;
     }
 
     &__location-info{
-        flex: 1 1 50%
+        flex: 0 0 50%;
+    }
+
+    @media (max-width: 700px) {
+        &__file-uploader {
+            flex: 0 0 100%;
+        }
+    
+        &__location-info{
+            flex: 0 0 100%;
+        }
     }
 }
 
@@ -46,7 +56,6 @@ a.filepond--credits {
 
 .location-block {
     display: block;
-    width: 500px;
 
     &__img {
         display: inline-block;

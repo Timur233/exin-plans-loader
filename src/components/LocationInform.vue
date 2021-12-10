@@ -1,5 +1,5 @@
 <template>
-  <div class="location-block save-button__location-info">
+  <div class="location-block save-plans__location-info">
     <a
       :href="file.url"
       target="_blank"
