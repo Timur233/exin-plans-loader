@@ -1,11 +1,16 @@
 <template>
   <div class="location-block save-button__location-info">
-    <img
-      :src="file.url"
-      :alt="file.name"
-      :title="file.name"
-      class="location-block__img"
+    <a
+      :href="file.url"
+      target="_blank"
     >
+      <img
+        :src="file.url"
+        :alt="file.name"
+        :title="file.name"
+        class="location-block__img"
+      >
+    </a>
     <h3>ЖК {{ project }}</h3>
     <div class="fields">
       <div class="field">
@@ -49,6 +54,7 @@
 </template>
 
 <script>
+
 export default {
     name:  "LocationInform",
     props: {

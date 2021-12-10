@@ -48,7 +48,7 @@ export default {
     },
     data: function() {
         return { 
-            baseURL: 'http://localhost/exin/exin.kz/web',
+            baseURL: 'http://localhost/exin.kz-1/web',
             uuid:    null,
             files:   [
                 {
@@ -114,9 +114,14 @@ export default {
                         uuid:  this.uuid,
                         plans: plans
                     })
-                }).then((res) => {console.log(res.json())});
-
-                // document.location.href = this.baseURL + '/uuid';
+                }).then(res => res.json())
+                    .then((res) => {
+                        if (res === true) {
+                            document.location.href = this.baseURL + '/locations/' + this.uuid;
+                        } else {
+                            alert('Возникла ошибка при сохранении! Обновите страницу и попробуйте снова.');
+                        }
+                    });
             }
         }
     },
