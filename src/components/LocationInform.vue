@@ -44,6 +44,13 @@
         <span>{{ floors }}</span>
       </div>
     </div>
+    <div 
+      v-show="isAlert" 
+      class="alert"
+      :class="{'alert__error': isError}"
+    >
+      {{ isError ? 'Возникла ошибка при сохранении! Обновите страницу и попробуйте снова.' : 'Сохранено' }}
+    </div>
     <button
       class="save-plans__button send_button"
       @click="saveChanges"
@@ -62,6 +69,14 @@ export default {
             type:    String,
             default: null
         },
+        isError: {
+            type:    Boolean,
+            dafault: false
+        },
+        isAlert: {
+            type:    Boolean,
+            dafault: false
+        }
     },
     data: function () {
         return {
@@ -102,7 +117,7 @@ export default {
     methods: {
         saveChanges: function () {
             this.$emit('saveChanges');
-        },
+        }
     }
 };
 </script>

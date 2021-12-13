@@ -5,6 +5,8 @@
   >
     <LocationInform
       :uuid="uuid"
+      :is-alert="isAlert"
+      :is-error="isError"
       @saveChanges="saveChanges"
       @loadPlans="loadPlans"
     />
@@ -51,6 +53,8 @@ export default {
         return { 
             baseURL: 'https://exin.kz',
             uuid:    null,
+            isAlert: false,
+            isError: false,
             files:   [],
         };
     },
@@ -118,12 +122,15 @@ export default {
                 }).then(res => res.json())
                     .then((res) => {
                         if (res === true) {
-                            history.back()
-                            // document.location.href = this.baseURL + '/locations/' + this.uuid;
+                            this.isAlert = true;
+                            history.back();
                         } else {
-                            alert('Возникла ошибка при сохранении! Обновите страницу и попробуйте снова.');
+                            this.isAlert = true;
+                            this.isError = true;
                         }
                     });
+            } else {
+                return false
             }
         },
         loadPlans: function (plans) {
