@@ -74,7 +74,7 @@ export default {
             file:            {
                 name: null,
                 url:  null
-            }
+            },
         }
     },
     mounted() {
@@ -94,6 +94,9 @@ export default {
                 this.building_number = res.building_number;
                 this.floors = res.floors;
                 this.file = res.file;
+                this.plans = res.plans;
+
+                this.$emit('loadPlans', res.plans);
             });
     },
     methods: {

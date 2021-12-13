@@ -6,6 +6,7 @@
     <LocationInform
       :uuid="uuid"
       @saveChanges="saveChanges"
+      @loadPlans="loadPlans"
     />
 
     <file-pond
@@ -50,14 +51,7 @@ export default {
         return { 
             baseURL: 'https://exin.kz',
             uuid:    null,
-            files:   [
-                {
-                    source:  'plan906123055.svg',
-                    options: {
-                        type: 'local',
-                    },
-                },
-            ],
+            files:   [],
         };
     },
     computed: {
@@ -87,9 +81,6 @@ export default {
         this.uuid = uuid;
     },
     methods: {
-        test: function() {
-            console.log(this.getFileslist());
-        },
         getFileslist: function() {
             const uploadedFiles = this.$refs.pond.getFiles();
             const planFiles = [];
@@ -97,14 +88,24 @@ export default {
             uploadedFiles.forEach((fileItem, index) => {
                 planFiles.push({
                     position: index,
-                    fileName: JSON.parse(fileItem.serverId)
+                    fileName: returnFileName(fileItem.serverId)
                 });
             });
+
+            function returnFileName(string) {
+                try {
+                    return JSON.parse(string);
+                } catch (error) {
+                    return string
+                }
+            }
 
             return planFiles;
         },
         saveChanges: function () {
             const plans = this.getFileslist();
+
+            console.log(plans);
 
             if (plans.length > 0) {
                 fetch(this.baseURL + '/api/plans/save-plans', {
@@ -117,13 +118,24 @@ export default {
                 }).then(res => res.json())
                     .then((res) => {
                         if (res === true) {
-                            document.location.href = this.baseURL + '/locations/' + this.uuid;
+                            history.back()
+                            // document.location.href = this.baseURL + '/locations/' + this.uuid;
                         } else {
                             alert('Возникла ошибка при сохранении! Обновите страницу и попробуйте снова.');
                         }
                     });
             }
-        }
+        },
+        loadPlans: function (plans) {
+            this.files = plans.map((plan) => {
+                return {
+                    source:  plan.image,
+                    options: {
+                        type: 'local',
+                    },
+                };
+            });
+        },
     },
 };
 </script>
