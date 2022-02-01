@@ -48,7 +48,7 @@ export default {
     },
     data: function() {
         return { 
-            baseURL: 'https://exin.kz',
+            baseURL: 'https://files.exin.kz:5001',
             uuid:    null,
             isAlert: false,
             isError: false,
@@ -60,7 +60,7 @@ export default {
             return {
                 url:     this.baseURL,
                 headers: {
-                    Authorization: 'Bearer '.concat('aAOI5zskZ1XBssXpH0FIOIv2SFtPJwKg'),
+                    contentType: 'Bearer '.concat('aAOI5zskZ1XBssXpH0FIOIv2SFtPJwKg'),
                 },
                 process: {
                     url:    '/api/plans/upload-plan',
